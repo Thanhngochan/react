@@ -1,47 +1,53 @@
 import { BrowserRouter, Routes, Route, NavLink } from "react-router-dom";
-
-function HomePage() {
-  return <h1>Trang Home – Notion mini của bé Hân</h1>;
-}
-
-function SettingsPage() {
-  return <h1>Trang Settings</h1>;
-}
-
-function AboutPage() {
-  return <h1>Trang About</h1>;
-}
+import NotionApp from "./NotionApp.jsx";
+import SettingsPage from "./SettingsPage.jsx";
+import AboutPage from "./AboutPage.jsx";
 
 export default function App() {
   return (
-    <BrowserRouter>
-      {/* NAVBAR */}
-      <nav
-        style={{
-          height: "56px",
-          display: "flex",
-          alignItems: "center",
-          padding: "0 24px",
-          borderBottom: "1px solid #ddd",
-          backgroundColor: "#ffffff",
-          justifyContent: "space-between",
-        }}
-      >
-        <div style={{ fontWeight: 600 }}>Hân Notion</div>
+    <div className="app-shell">
+      <BrowserRouter>
+        {/* NAVBAR */}
+        <nav className="navbar">
+          <div className="navbar-brand">HÂN NOTION</div>
 
-        <div style={{ display: "flex", gap: "16px", fontSize: "14px" }}>
-          <NavLink to="/">Home</NavLink>
-          <NavLink to="/settings">Settings</NavLink>
-          <NavLink to="/about">About</NavLink>
+          <div className="navbar-links">
+            <NavLink
+              to="/"
+              className={({ isActive }) =>
+                "nav-link" + (isActive ? " active" : "")
+              }
+            >
+              Home
+            </NavLink>
+            <NavLink
+              to="/settings"
+              className={({ isActive }) =>
+                "nav-link" + (isActive ? " active" : "")
+              }
+            >
+              Settings
+            </NavLink>
+            <NavLink
+              to="/about"
+              className={({ isActive }) =>
+                "nav-link" + (isActive ? " active" : "")
+              }
+            >
+              About
+            </NavLink>
+          </div>
+        </nav>
+
+        {/* MAIN LAYOUT */}
+        <div className="app-layout">
+          <Routes>
+            <Route path="/" element={<NotionApp />} />
+            <Route path="/settings" element={<SettingsPage />} />
+            <Route path="/about" element={<AboutPage />} />
+          </Routes>
         </div>
-      </nav>
-
-      {/* ROUTES */}
-      <Routes>
-        <Route path="/" element={<HomePage />} />
-        <Route path="/settings" element={<SettingsPage />} />
-        <Route path="/about" element={<AboutPage />} />
-      </Routes>
-    </BrowserRouter>
+      </BrowserRouter>
+    </div>
   );
 }
