@@ -1,14 +1,16 @@
-import React from 'react';
-import ReactDOM from 'react-dom/client'; 
+import React from "react";
+import ReactDOM from "react-dom/client";
 // thẳng trung gian của react và html
-import './index.css'
-import App from './App.jsx'
-import {BrowserRouter} from "react-router-dom";
+import "./index.css";
+import App from "./App.jsx";
+import { BrowserRouter } from "react-router-dom";
 
-ReactDOM.createRoot(document.getElementById('root')).render(
+// đây là file main.jsx
+ReactDOM.createRoot(document.getElementById("root")).render(
   <React.StrictMode>
-    <BrowserRoute>
-    <App />
-    </BrowserRoute>
+    <BrowserRouter>
+      <App />
+    </BrowserRouter>
   </React.StrictMode>
 );
+
