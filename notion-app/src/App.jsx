@@ -1,10 +1,13 @@
-import { useState } from 'react'
+import {useState} from 'react';
+import {Routes, Route} from "react-router-dom";
 import "./index.css";
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
 import './App.css'
+import NotionApp from "./NotionApp.jsx";
+import SettingsPage from "./SettingsPage.jsx";
+import AboutPage from "./AboutPage.jsx";
 
-function App() {
+
+function NotionApp() {
   // 1. Tủ pages : giống như một cái "database" nhỏ trong bộ nhớ 
   const [pages, setPages] = useState([
     {id:1, title:"Welcome", content: "Đây là Notion của Hân Hân"},
@@ -157,5 +160,35 @@ function App() {
   );
 }
 
+// App thật sự export
+function App() {
+  return (
+    <><nav
+      style={{
+        height: "56px",
+        display: "flex",
+        alignItems: "center",
+        padding: "0 24px",
+        borderBottom: "1px solid #ddd",
+        backgroundColor: "#ffffff",
+        justifyContent: "space-between",
+      }}
+    >
+      <div style={{ fontWeight: 600 }}>Hân Notion</div>
+
+      <div style={{ display: "flex", gap: "16px" }}>
+        <NavLink to="/">Home</NavLink>
+        <NavLink to="/settings">Settings</NavLink>
+        <NavLink to="/about">About</NavLink>
+      </div>
+    </nav>
+    <Routes>
+        {/* Trang Notion chính, path = "/" */}
+        <Route path="/" element={<NotionApp />} />
+        <Route path="/settings" element={<SettingsPage />} />
+        <Route path="/about" element={<AboutPage />} />
+      </Routes></>
+  );
+}
 
 export default App;
