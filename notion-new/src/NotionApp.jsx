@@ -2,7 +2,7 @@ import { useState } from "react";
 
 export default function NotionApp() {
   const [pages, setPages] = useState([
-    { id: 1, title: "Welcome", content: "Đây là Notion mini của bé Hân ✨" },
+    { id: 1, title: "Welcome", content: " Notion ✨" },
     { id: 2, title: "Kế hoạch học React", content: "Ghi plan học ở đây..." },
     { id: 3, title: "Ý tưởng dự án", content: "List mấy cái startup, app..." },
   ]);
