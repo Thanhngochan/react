@@ -1,80 +1,99 @@
-/* =============== RESET / BASE =============== */
-* {
-  box-sizing: border-box;
-}
+/* =========================
+   BASE
+========================= */
+* { box-sizing: border-box; }
 
-html,
-body {
-  height: 100%;
-}
+html, body { height: 100%; }
 
 body {
   margin: 0;
-  font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
-    Helvetica, Arial, sans-serif;
-  background: #f8fafc;
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI",
+    Roboto, Helvetica, Arial, sans-serif;
+  background: #f3f4f6; /* nền nhẹ hơn để app nổi */
   color: #111827;
 }
 
-/* Nếu app của bạn render NotionApp trực tiếp ở root */
-#root {
+#root { height: 100vh; }
+
+/* =========================
+   LAYOUT CHÍNH
+   - App nằm giữa, có khung, shadow
+========================= */
+.notion-layout {
   height: 100vh;
+  padding: 18px;
+  display: flex;
+  gap: 0;
+
+  /* khung app */
+  background: transparent;
 }
 
-/* =============== NOTION LAYOUT =============== */
-.notion-layout {
-  display: flex;
-  height: 100vh;
+.notion-layout > .sidebar,
+.notion-layout > .editor {
   background: #ffffff;
 }
 
-/* ---------- SIDEBAR ---------- */
+.notion-layout {
+  border-radius: 16px;
+}
+
+.notion-layout {
+  /* tạo "frame" bằng box-shadow + border trên wrapper */
+  box-shadow: 0 18px 45px rgba(0, 0, 0, 0.08);
+  border: 1px solid #e5e7eb;
+  overflow: hidden;
+}
+
+/* =========================
+   SIDEBAR
+========================= */
 .sidebar {
   width: 280px;
-  background: #ffffff;
   border-right: 1px solid #e5e7eb;
   padding: 16px;
   display: flex;
   flex-direction: column;
+  gap: 12px;
 }
 
 .sidebar-header {
   font-weight: 800;
   font-size: 16px;
-  margin-bottom: 4px;
+  line-height: 1.2;
+  margin: 0;
 }
 
 .sidebar-sub {
+  margin: 0 0 6px 0;
   font-size: 12px;
   color: #6b7280;
-  margin-bottom: 14px;
 }
 
+/* nút New page */
 .sidebar-add-btn {
-  display: inline-flex;
+  display: flex;
   align-items: center;
-  gap: 8px;
+  gap: 10px;
+  width: 100%;
+
   padding: 10px 12px;
-  border-radius: 10px;
+  border-radius: 12px;
   border: 1px solid #111827;
   background: #111827;
   color: #ffffff;
+
   font-size: 13px;
-  font-weight: 700;
+  font-weight: 800;
   cursor: pointer;
 }
 
-.sidebar-add-btn:hover {
-  opacity: 0.92;
-}
+.sidebar-add-btn:hover { opacity: 0.92; }
+.sidebar-add-btn:active { transform: translateY(1px); }
 
-.sidebar-add-btn span:first-child {
-  font-size: 16px;
-  line-height: 1;
-}
-
+/* danh sách page */
 .page-list {
-  margin-top: 14px;
+  margin-top: 4px;
   display: flex;
   flex-direction: column;
   gap: 6px;
@@ -82,125 +101,136 @@ body {
   padding-right: 4px;
 }
 
+/* item */
 .page-item {
   display: flex;
   align-items: center;
   gap: 10px;
+
   padding: 10px 10px;
-  border-radius: 10px;
+  border-radius: 12px;
   cursor: pointer;
+  user-select: none;
+
   font-size: 14px;
   color: #111827;
+
   border: 1px solid transparent;
-  user-select: none;
+  transition: background 0.15s ease, border-color 0.15s ease;
 }
 
-.page-item:hover {
-  background: #f1f5f9;
-}
+.page-item:hover { background: #f3f4f6; }
 
 .page-item.active {
   background: #eef2ff;
   border-color: #e0e7ff;
-  font-weight: 700;
+  font-weight: 800;
 }
 
 .page-item-bullet {
-  width: 8px;
-  height: 8px;
+  width: 9px;
+  height: 9px;
   border-radius: 999px;
-  background: #9ca3af;
+  background: #cbd5e1;
   flex: 0 0 auto;
 }
 
-.page-item.active .page-item-bullet {
-  background: #111827;
-}
+.page-item.active .page-item-bullet { background: #111827; }
 
-/* ---------- EDITOR ---------- */
+/* =========================
+   EDITOR
+   - topbar cố định trong editor
+   - nội dung ở giữa, rộng vừa phải
+========================= */
 .editor {
   flex: 1;
-  background: #ffffff;
-  overflow-y: auto;
-  padding: 22px;
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
 }
 
+/* khối trong editor */
 .editor-inner {
-  max-width: 860px;
-  margin: 0 auto;
-  border: 1px solid #e5e7eb;
-  border-radius: 14px;
-  padding: 18px;
-  background: #ffffff;
+  flex: 1;
+  min-width: 0;
+  overflow: auto;
+
+  padding: 22px 26px;
 }
 
+/* top row (title + delete) */
 .editor-top {
   display: flex;
   justify-content: space-between;
   align-items: center;
   gap: 12px;
-  margin-bottom: 10px;
+  margin-bottom: 12px;
 }
 
+/* title input */
 .editor-title {
   width: 100%;
-  font-size: 28px;
-  font-weight: 800;
   border: none;
   outline: none;
-  padding: 6px 4px;
+
+  font-size: 30px;
+  font-weight: 900;
+  color: #0f172a;
+
+  padding: 6px 2px;
 }
 
-.editor-title::placeholder {
-  color: #9ca3af;
-}
+.editor-title::placeholder { color: #9ca3af; }
 
+/* textarea */
 .editor-content {
   width: 100%;
-  min-height: 420px;
-  border: none;
+  min-height: 520px;
+
+  border: 1px solid #e5e7eb;
+  border-radius: 14px;
   outline: none;
-  resize: vertical;
-  padding: 8px 4px;
+
+  padding: 14px 14px;
   font-size: 15px;
-  line-height: 1.65;
-  color: #111827;
+  line-height: 1.7;
+
+  resize: vertical;
+  background: #ffffff;
 }
 
-.editor-content::placeholder {
-  color: #9ca3af;
+.editor-content:focus {
+  border-color: #c7d2fe;
 }
 
-/* Delete button class (bạn đang dùng className="delete-btn") */
+/* delete button */
 .delete-btn {
-  padding: 8px 12px;
-  border-radius: 10px;
+  padding: 9px 12px;
+  border-radius: 12px;
   font-size: 13px;
-  font-weight: 700;
+  font-weight: 900;
+
   border: 1px solid #ef4444;
   background: #fee2e2;
   color: #b91c1c;
+
   cursor: pointer;
   white-space: nowrap;
 }
 
-.delete-btn:hover {
-  filter: brightness(0.98);
-}
+.delete-btn:hover { filter: brightness(0.98); }
+.delete-btn:active { transform: translateY(1px); }
 
-.delete-btn:active {
-  transform: translateY(1px);
-}
-
-/* =============== AUTH (LOGIN / SIGNUP) =============== */
+/* =========================
+   AUTH (LOGIN / SIGNUP)
+========================= */
 .auth-wrap {
-  width: 100%;
   min-height: 100vh;
   display: flex;
   align-items: center;
   justify-content: center;
-  background: #f8fafc;
   padding: 24px;
+  background: #f3f4f6;
 }
 
 .auth-card {
@@ -208,15 +238,15 @@ body {
   max-width: 420px;
   background: #ffffff;
   border: 1px solid #e5e7eb;
-  border-radius: 14px;
+  border-radius: 16px;
+  box-shadow: 0 18px 45px rgba(0, 0, 0, 0.08);
   padding: 18px;
 }
 
 .auth-title {
   margin: 0 0 6px 0;
   font-size: 20px;
-  font-weight: 800;
-  color: #111827;
+  font-weight: 900;
 }
 
 .auth-sub {
@@ -225,11 +255,7 @@ body {
   color: #6b7280;
 }
 
-.auth-form {
-  display: flex;
-  flex-direction: column;
-  gap: 12px;
-}
+.auth-form { display: flex; flex-direction: column; gap: 12px; }
 
 .auth-label {
   display: flex;
@@ -243,15 +269,12 @@ body {
   width: 100%;
   padding: 10px 12px;
   border: 1px solid #e5e7eb;
-  border-radius: 10px;
+  border-radius: 12px;
   outline: none;
   font-size: 14px;
-  background: #ffffff;
 }
 
-.input:focus {
-  border-color: #111827;
-}
+.input:focus { border-color: #111827; }
 
 .auth-error {
   margin: 0;
@@ -260,7 +283,7 @@ body {
   background: #fee2e2;
   border: 1px solid #fecaca;
   padding: 10px 12px;
-  border-radius: 10px;
+  border-radius: 12px;
 }
 
 .auth-foot {
@@ -271,62 +294,53 @@ body {
 
 .auth-foot a {
   color: #111827;
-  font-weight: 700;
+  font-weight: 800;
   text-decoration: none;
 }
 
-.auth-foot a:hover {
-  text-decoration: underline;
-}
+.auth-foot a:hover { text-decoration: underline; }
 
-/* Button dùng chung */
 .btn {
   display: inline-flex;
   align-items: center;
   justify-content: center;
+
   padding: 10px 12px;
-  border-radius: 10px;
+  border-radius: 12px;
   border: 1px solid #111827;
+
   background: #111827;
   color: #ffffff;
+
   font-size: 14px;
-  font-weight: 800;
+  font-weight: 900;
   cursor: pointer;
 }
 
-.btn:hover {
-  opacity: 0.92;
-}
+.btn:hover { opacity: 0.92; }
+.btn:disabled { opacity: 0.6; cursor: not-allowed; }
 
-.btn:disabled {
-  opacity: 0.6;
-  cursor: not-allowed;
-}
-
-/* =============== RESPONSIVE =============== */
-@media (max-width: 900px) {
-  .sidebar {
-    width: 240px;
-  }
-  .editor-inner {
-    max-width: 720px;
-  }
+/* =========================
+   RESPONSIVE
+========================= */
+@media (max-width: 920px) {
+  .notion-layout { padding: 12px; }
+  .sidebar { width: 240px; }
+  .editor-inner { padding: 18px; }
 }
 
 @media (max-width: 720px) {
   .notion-layout {
     flex-direction: column;
+    padding: 10px;
   }
+
   .sidebar {
     width: 100%;
     border-right: none;
     border-bottom: 1px solid #e5e7eb;
   }
-  .editor {
-    padding: 16px;
-  }
-  .editor-inner {
-    border-radius: 12px;
-    padding: 14px;
-  }
+
+  .editor-inner { padding: 14px; }
+  .editor-content { min-height: 360px; }
 }
