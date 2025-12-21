@@ -1,241 +1,61 @@
-* {
-  box-sizing: border-box;
-}
-
-body {
-  margin: 0;
-  font-family: system-ui, -apple-system, BlinkMacSystemFont, "SF Pro Text",
-    sans-serif;
-  background: #f3f4f6;
-  color: #111827;
-}
-
-#root {
-  min-height: 100vh;
-}
-
-/* Khung app chính */
-.app-shell {
-  max-width: 1200px;
-  height: calc(100vh - 32px);
-  margin: 16px auto;
-  background: #ffffff;
-  border-radius: 18px;
-  box-shadow: 0 18px 45px rgba(15, 23, 42, 0.12);
-  overflow: hidden;
-  display: flex;
-  flex-direction: column;
-}
-
-/* NAVBAR */
-
+/* Navbar layout */
 .navbar {
-  height: 56px;
   display: flex;
   align-items: center;
-  padding: 0 24px;
-  border-bottom: 1px solid #e5e7eb;
-  background: linear-gradient(to right, #ffffff, #f9fafb);
-  justify-content: space-between;
+  padding: 12px 20px;
+  gap: 18px;
 }
 
+/* Brand: đặt margin-right:auto để đẩy các link sang phải (xa ra) */
 .navbar-brand {
-  font-weight: 650;
-  letter-spacing: 0.03em;
-  font-size: 15px;
-  text-transform: uppercase;
-  color: #111827;
+  font-weight: 800;
+  font-size: 18px;
+  text-decoration: none;
+  color: inherit;
+
+  margin-right: auto; /* DÒNG QUAN TRỌNG NHẤT */
 }
 
+/* Nhóm link Home/Settings/About */
 .navbar-links {
   display: flex;
   gap: 18px;
-  font-size: 14px;
+  align-items: center;
 }
 
+/* Khu auth (ngoài cùng bên phải) */
+.navbar-auth {
+  display: flex;
+  gap: 12px;
+  align-items: center;
+}
+
+/* Link style */
 .nav-link {
   text-decoration: none;
-  color: #4b5563;
-  padding-bottom: 2px;
-  border-bottom: 1px solid transparent;
-  transition: color 0.15s ease, border-color 0.15s ease, opacity 0.15s ease;
+  color: inherit;
+  opacity: 0.85;
 }
 
 .nav-link:hover {
-  color: #111827;
-  opacity: 0.9;
+  opacity: 1;
 }
 
 .nav-link.active {
-  color: #111827;
-  font-weight: 600;
-  border-color: #111827;
+  font-weight: 700;
+  opacity: 1;
 }
 
-/* LAYOUT CHÍNH */
-
-.app-layout {
-  flex: 1;
-  display: flex;
-  height: calc(100% - 56px);
+/* User + button */
+.navbar-user {
+  font-size: 13px;
+  opacity: 0.8;
 }
 
-/* SIDEBAR */
-
-.sidebar {
-  width: 260px;
-  border-right: 1px solid #e5e7eb;
-  padding: 16px 14px;
-  background: #f9fafb;
-  display: flex;
-  flex-direction: column;
-}
-
-.sidebar-header {
-  font-weight: 600;
-  margin-bottom: 12px;
-  font-size: 16px;
-  color: #111827;
-}
-
-.sidebar-sub {
-  font-size: 12px;
-  color: #9ca3af;
-  margin-bottom: 16px;
-}
-
-.sidebar-add-btn {
-  width: 100%;
-  padding: 7px 10px;
-  margin-bottom: 12px;
-  border-radius: 8px;
-  border: 1px solid #d1d5db;
-  background: #ffffff;
+.navbar-btn {
+  padding: 6px 10px;
+  border: 1px solid #e5e7eb;
+  border-radius: 10px;
+  background: #fff;
   cursor: pointer;
-  font-size: 13px;
-  display: flex;
-  align-items: center;
-  gap: 6px;
-  justify-content: center;
-  transition: background 0.15s ease, box-shadow 0.15s ease,
-    transform 0.08s ease;
 }
-
-.sidebar-add-btn:hover {
-  background: #f3f4f6;
-  box-shadow: 0 6px 18px rgba(15, 23, 42, 0.08);
-  transform: translateY(-1px);
-}
-
-.page-list {
-  flex: 1;
-  overflow-y: auto;
-  padding-right: 4px;
-}
-
-.page-item {
-  padding: 7px 9px;
-  border-radius: 8px;
-  cursor: pointer;
-  margin-bottom: 4px;
-  font-size: 13px;
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  color: #374151;
-  transition: background 0.12s ease, color 0.12s ease, transform 0.06s ease;
-}
-
-.page-item-bullet {
-  width: 6px;
-  height: 6px;
-  border-radius: 999px;
-  background: #d1d5db;
-}
-
-.page-item.active .page-item-bullet {
-  background: #2563eb;
-}
-
-.page-item:hover {
-  background: #e5e7eb;
-}
-
-.page-item.active {
-  background: #e0edff;
-  color: #1f2937;
-  font-weight: 550;
-  transform: translateX(1px);
-}
-
-/* EDITOR */
-
-.editor {
-  flex: 1;
-  padding: 20px 40px;
-  overflow-y: auto;
-  background: #ffffff;
-}
-
-.editor-inner {
-  max-width: 780px;
-  margin: 0 auto;
-}
-
-.editor-title {
-  border: none;
-  outline: none;
-  font-size: 28px;
-  font-weight: 600;
-  margin-bottom: 16px;
-  background: transparent;
-  width: 100%;
-  color: #111827;
-}
-
-.editor-title::placeholder {
-  color: #9ca3af;
-}
-
-.editor-content {
-  width: 100%;
-  min-height: 70vh;
-  border: none;
-  outline: none;
-  resize: none;
-  font-size: 15px;
-  line-height: 1.7;
-  background: transparent;
-  color: #111827;
-}
-
-.editor-content::placeholder {
-  color: #9ca3af;
-}
-
-/* Settings / About page */
-
-.page-wrapper {
-  padding: 24px 40px;
-}
-
-.page-inner {
-  max-width: 720px;
-  margin: 0 auto;
-}
-
-.page-title {
-  font-size: 24px;
-  font-weight: 600;
-  margin-bottom: 8px;
-}
-
-.page-subtitle {
-  font-size: 13px;
-  color: #9ca3af;
-  margin-bottom: 20px;
-}
-.auth-page { max-width: 420px; margin: 48px auto; padding: 16px; }
-.auth-form { display: grid; gap: 12px; }
-.auth-form input { width: 100%; padding: 10px; border: 1px solid #e5e7eb; border-radius: 10px; }
-.auth-error { color: #b00020; margin: 0; }

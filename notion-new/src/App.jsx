@@ -1,4 +1,4 @@
-import { BrowserRouter, Routes, Route, NavLink, useNavigate, Navigate } from "react-router-dom";
+import { BrowserRouter, Routes, Route, NavLink, Navigate } from "react-router-dom";
 
 import NotionApp from "./NotionApp.jsx";
 import SettingsPage from "./SettingsPage.jsx";
@@ -12,41 +12,60 @@ import { useAuth } from "./auth/AuthContext.jsx";
 
 function Navbar() {
   const { user, logout } = useAuth();
-  const nav = useNavigate();
-
-  function handleLogout() {
-    logout();
-    nav("/login");
-  }
 
   return (
     <nav className="navbar">
-      <div className="navbar-brand">HÂN NOTION</div>
+      {/* Brand (bên trái) */}
+      <NavLink to="/" className="navbar-brand">
+        HÂN NOTION
+      </NavLink>
 
+      {/* Links (bên phải - bị đẩy xa nhờ CSS margin-right:auto ở brand) */}
       <div className="navbar-links">
-        <NavLink to="/" end className={({ isActive }) => "nav-link" + (isActive ? " active" : "")}>
+        <NavLink
+          to="/"
+          end
+          className={({ isActive }) => "nav-link" + (isActive ? " active" : "")}
+        >
           Home
         </NavLink>
-        <NavLink to="/settings" className={({ isActive }) => "nav-link" + (isActive ? " active" : "")}>
+
+        <NavLink
+          to="/settings"
+          className={({ isActive }) => "nav-link" + (isActive ? " active" : "")}
+        >
           Settings
         </NavLink>
-        <NavLink to="/about" className={({ isActive }) => "nav-link" + (isActive ? " active" : "")}>
+
+        <NavLink
+          to="/about"
+          className={({ isActive }) => "nav-link" + (isActive ? " active" : "")}
+        >
           About
         </NavLink>
       </div>
 
-      <div style={{ marginLeft: "auto", display: "flex", gap: 10, alignItems: "center" }}>
+      {/* Auth area (ngoài cùng bên phải) */}
+      <div className="navbar-auth">
         {user ? (
           <>
-            <span style={{ opacity: 0.8, fontSize: 14 }}>{user.email}</span>
-            <button onClick={handleLogout}>Logout</button>
+            <span className="navbar-user">{user.email}</span>
+            <button className="navbar-btn" onClick={logout}>
+              Logout
+            </button>
           </>
         ) : (
           <>
-            <NavLink to="/login" className={({ isActive }) => "nav-link" + (isActive ? " active" : "")}>
+            <NavLink
+              to="/login"
+              className={({ isActive }) => "nav-link" + (isActive ? " active" : "")}
+            >
               Login
             </NavLink>
-            <NavLink to="/signup" className={({ isActive }) => "nav-link" + (isActive ? " active" : "")}>
+            <NavLink
+              to="/signup"
+              className={({ isActive }) => "nav-link" + (isActive ? " active" : "")}
+            >
               Sign up
             </NavLink>
           </>
@@ -64,7 +83,7 @@ export default function App() {
 
         <div className="app-layout">
           <Routes>
-            {/* Protected routes */}
+            {/* Protected */}
             <Route
               path="/"
               element={
@@ -82,12 +101,12 @@ export default function App() {
               }
             />
 
-            {/* Public routes */}
+            {/* Public */}
             <Route path="/about" element={<AboutPage />} />
             <Route path="/login" element={<LoginPage />} />
             <Route path="/signup" element={<SignupPage />} />
 
-            {/* fallback */}
+            {/* Fallback */}
             <Route path="*" element={<Navigate to="/" replace />} />
           </Routes>
         </div>
@@ -95,3 +114,4 @@ export default function App() {
     </BrowserRouter>
   );
 }
+
