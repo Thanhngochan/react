@@ -40,7 +40,7 @@ export default function NotionApp() {
   const handleDeletePage = () => {
     if (!selectedPage) return;
 
-    // Nếu chỉ còn 1 trang → không cho xoá
+    // Nếu chỉ còn 1 trang : không cho xoá
     if (pages.length === 1) {
       alert("Không thể xoá vì chỉ còn 1 trang duy nhất.");
       return;
