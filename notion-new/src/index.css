@@ -20,13 +20,12 @@ body {
    - App nằm giữa, có khung, shadow
 ========================= */
 .notion-layout {
-  height: 100vh;
+  height: 100%;
   padding: 18px;
   display: flex;
   gap: 0;
-
-  /* khung app */
   background: transparent;
+  min-height: 0;
 }
 
 .notion-layout > .sidebar,
@@ -222,103 +221,220 @@ body {
 .delete-btn:active { transform: translateY(1px); }
 
 /* =========================
+   APP LAYOUT & NAVBAR
+========================= */
+.app-shell {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  background: #f3f4f6;
+}
+
+.app-layout {
+  flex: 1;
+  overflow: auto;
+  padding: 0;
+}
+
+.navbar {
+  display: flex;
+  align-items: center;
+  gap: 24px;
+  padding: 16px 24px;
+  background: #ffffff;
+  border-bottom: 1px solid #e5e7eb;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+}
+
+.navbar-brand {
+  font-size: 20px;
+  font-weight: 900;
+  color: #111827;
+  letter-spacing: -0.5px;
+}
+
+.navbar-links {
+  display: flex;
+  gap: 8px;
+}
+
+.nav-link {
+  padding: 8px 16px;
+  border-radius: 8px;
+  text-decoration: none;
+  color: #6b7280;
+  font-size: 14px;
+  font-weight: 600;
+  transition: all 0.15s ease;
+  border: 1px solid transparent;
+}
+
+.nav-link:hover {
+  background: #f3f4f6;
+  color: #111827;
+}
+
+.nav-link.active {
+  background: #111827;
+  color: #ffffff;
+}
+
+.navbar button {
+  padding: 8px 16px;
+  border-radius: 8px;
+  border: 1px solid #e5e7eb;
+  background: #ffffff;
+  color: #111827;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+
+.navbar button:hover {
+  background: #f3f4f6;
+  border-color: #d1d5db;
+}
+
+/* =========================
    AUTH (LOGIN / SIGNUP)
 ========================= */
-.auth-wrap {
-  min-height: 100vh;
+.auth-page {
+  min-height: calc(100vh - 73px);
   display: flex;
+  flex-direction: column;
   align-items: center;
   justify-content: center;
   padding: 24px;
   background: #f3f4f6;
 }
 
-.auth-card {
+.auth-page h1 {
+  margin: 0 0 32px 0;
+  font-size: 32px;
+  font-weight: 900;
+  color: #111827;
+  letter-spacing: -1px;
+}
+
+.auth-form {
   width: 100%;
   max-width: 420px;
   background: #ffffff;
   border: 1px solid #e5e7eb;
   border-radius: 16px;
   box-shadow: 0 18px 45px rgba(0, 0, 0, 0.08);
-  padding: 18px;
-}
-
-.auth-title {
-  margin: 0 0 6px 0;
-  font-size: 20px;
-  font-weight: 900;
-}
-
-.auth-sub {
-  margin: 0 0 16px 0;
-  font-size: 13px;
-  color: #6b7280;
-}
-
-.auth-form { display: flex; flex-direction: column; gap: 12px; }
-
-.auth-label {
+  padding: 32px;
   display: flex;
   flex-direction: column;
-  gap: 6px;
-  font-size: 13px;
+  gap: 20px;
+}
+
+.auth-form label {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  font-size: 14px;
+  font-weight: 600;
   color: #374151;
 }
 
-.input {
+.auth-form input {
   width: 100%;
-  padding: 10px 12px;
+  padding: 12px 16px;
   border: 1px solid #e5e7eb;
   border-radius: 12px;
   outline: none;
-  font-size: 14px;
+  font-size: 15px;
+  transition: border-color 0.15s ease;
+  background: #ffffff;
 }
 
-.input:focus { border-color: #111827; }
+.auth-form input:focus {
+  border-color: #111827;
+}
+
+.auth-form button {
+  width: 100%;
+  padding: 12px 16px;
+  border-radius: 12px;
+  border: 1px solid #111827;
+  background: #111827;
+  color: #ffffff;
+  font-size: 15px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: opacity 0.15s ease;
+  margin-top: 8px;
+}
+
+.auth-form button:hover:not(:disabled) {
+  opacity: 0.92;
+}
+
+.auth-form button:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
 
 .auth-error {
   margin: 0;
-  font-size: 13px;
+  font-size: 14px;
   color: #b91c1c;
   background: #fee2e2;
   border: 1px solid #fecaca;
-  padding: 10px 12px;
+  padding: 12px 16px;
   border-radius: 12px;
 }
 
-.auth-foot {
-  margin: 14px 0 0 0;
-  font-size: 13px;
+.auth-page > p {
+  margin: 24px 0 0 0;
+  font-size: 14px;
   color: #6b7280;
 }
 
-.auth-foot a {
+.auth-page > p a {
   color: #111827;
-  font-weight: 800;
+  font-weight: 700;
   text-decoration: none;
+  margin-left: 4px;
 }
 
-.auth-foot a:hover { text-decoration: underline; }
+.auth-page > p a:hover {
+  text-decoration: underline;
+}
 
-.btn {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
+/* =========================
+   SIMPLE PAGES (ABOUT / SETTINGS)
+========================= */
+.simple-page {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 48px 24px;
+  background: #ffffff;
+  min-height: calc(100vh - 73px);
+}
 
-  padding: 10px 12px;
-  border-radius: 12px;
-  border: 1px solid #111827;
-
-  background: #111827;
-  color: #ffffff;
-
-  font-size: 14px;
+.simple-page h1 {
+  margin: 0 0 24px 0;
+  font-size: 36px;
   font-weight: 900;
-  cursor: pointer;
+  color: #111827;
+  letter-spacing: -1px;
 }
 
-.btn:hover { opacity: 0.92; }
-.btn:disabled { opacity: 0.6; cursor: not-allowed; }
+.simple-page .muted {
+  font-size: 16px;
+  line-height: 1.7;
+  color: #6b7280;
+}
+
+.simple-page p {
+  font-size: 16px;
+  line-height: 1.7;
+  color: #374151;
+  margin: 16px 0;
+}
 
 /* =========================
    RESPONSIVE
@@ -327,6 +443,17 @@ body {
   .notion-layout { padding: 12px; }
   .sidebar { width: 240px; }
   .editor-inner { padding: 18px; }
+  
+  .navbar {
+    padding: 12px 16px;
+    flex-wrap: wrap;
+  }
+  
+  .navbar-links {
+    order: 3;
+    width: 100%;
+    margin-top: 8px;
+  }
 }
 
 @media (max-width: 720px) {
@@ -343,4 +470,25 @@ body {
 
   .editor-inner { padding: 14px; }
   .editor-content { min-height: 360px; }
+  
+  .navbar {
+    padding: 12px;
+    gap: 12px;
+  }
+  
+  .navbar-brand {
+    font-size: 18px;
+  }
+  
+  .auth-form {
+    padding: 24px;
+  }
+  
+  .simple-page {
+    padding: 32px 16px;
+  }
+  
+  .simple-page h1 {
+    font-size: 28px;
+  }
 }
