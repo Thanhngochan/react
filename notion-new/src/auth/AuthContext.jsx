@@ -8,9 +8,13 @@ export function AuthProvider({ children }) {
   const [isAuthLoading, setIsAuthLoading] = useState(true);
 
   useEffect(() => {
-    const session = getSession();
-    setUser(session);
+    setUser(getSession());
     setIsAuthLoading(false);
+
+    // Đồng bộ nếu em mở nhiều tab
+    const onStorage = () => setUser(getSession());
+    window.addEventListener("storage", onStorage);
+    return () => window.removeEventListener("storage", onStorage);
   }, []);
 
   function login(email) {

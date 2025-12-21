@@ -235,3 +235,7 @@ body {
   color: #9ca3af;
   margin-bottom: 20px;
 }
+.auth-page { max-width: 420px; margin: 48px auto; padding: 16px; }
+.auth-form { display: grid; gap: 12px; }
+.auth-form input { width: 100%; padding: 10px; border: 1px solid #e5e7eb; border-radius: 10px; }
+.auth-error { color: #b00020; margin: 0; }
