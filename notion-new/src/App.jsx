@@ -1,141 +1,97 @@
-import { useState } from "react";
+import { BrowserRouter, Routes, Route, NavLink, useNavigate, Navigate } from "react-router-dom";
 
-export default function NotionApp() {
-  const [pages, setPages] = useState([
-    { id: 1, title: "Welcome", content: " Notion ✨" },
-    { id: 2, title: "Kế hoạch học React", content: "Ghi plan học ở đây..." },
-    { id: 3, title: "Ý tưởng dự án", content: "List mấy cái startup, app..." },
-  ]);
+import NotionApp from "./NotionApp.jsx";
+import SettingsPage from "./SettingsPage.jsx";
+import AboutPage from "./AboutPage.jsx";
 
-  // lấy ra page đang chọn
-  const [selectedId, setSelectedId] = useState(1);
-  const selectedPage = pages.find((p) => p.id === selectedId);
+import LoginPage from "./pages/LoginPage.jsx";
+import SignupPage from "./pages/SignUpPage.jsx";
 
-  // cập nhật title/content
-  const handleContentChange = (newContent) => {
-    setPages((prev) =>
-      prev.map((page) =>
-        page.id === selectedId ? { ...page, content: newContent } : page
-      )
-    );
-  };
+import ProtectedRoute from "./auth/ProtectedRoute.jsx";
+import { useAuth } from "./auth/AuthContext.jsx";
 
-  const handleTitleChange = (newTitle) => {
-    setPages((prev) =>
-      prev.map((page) =>
-        page.id === selectedId ? { ...page, title: newTitle } : page
-      )
-    );
-  };
+function Navbar() {
+  const { user, logout } = useAuth();
+  const nav = useNavigate();
 
-  // tạo page mới
-  const handleAddPage = () => {
-    const newId = Date.now();
-    const newPage = {
-      id: newId,
-      title: "Untitled",
-      content: "",
-    };
-    setPages((prev) => [...prev, newPage]);
-    setSelectedId(newId);
-  };
-
-  // xoá page (sạch hơn, tránh setState lồng nhau)
-  const handleDeletePage = () => {
-    if (!selectedPage) return;
-
-    // Nếu chỉ còn 1 trang : không cho xoá
-    if (pages.length === 1) {
-      alert("Không thể xoá vì chỉ còn 1 trang duy nhất.");
-      return;
-    }
-
-    const deletedIndex = pages.findIndex((p) => p.id === selectedId);
-    const newPages = pages.filter((p) => p.id !== selectedId);
-
-    const nextIndex = Math.max(0, deletedIndex - 1);
-    const nextSelectedId = newPages[nextIndex]?.id ?? newPages[0]?.id;
-
-    setPages(newPages);
-    setSelectedId(nextSelectedId);
-  };
+  function handleLogout() {
+    logout();
+    nav("/login");
+  }
 
   return (
-    <>
-      {/* SIDEBAR */}
-      <div className="sidebar">
-        <div className="sidebar-header">Workspace của Hân</div>
-        <div className="sidebar-sub">Notes · Ideas · Plans</div>
+    <nav className="navbar">
+      <div className="navbar-brand">HÂN NOTION</div>
 
-        <button className="sidebar-add-btn" onClick={handleAddPage}>
-          <span>＋</span>
-          <span>New page</span>
-        </button>
-
-        <div className="page-list">
-          {pages.map((page) => (
-            <div
-              key={page.id}
-              className={"page-item" + (page.id === selectedId ? " active" : "")}
-              onClick={() => setSelectedId(page.id)}
-            >
-              <span className="page-item-bullet" />
-              <span>{page.title || "Untitled"}</span>
-            </div>
-          ))}
-        </div>
+      <div className="navbar-links">
+        <NavLink to="/" end className={({ isActive }) => "nav-link" + (isActive ? " active" : "")}>
+          Home
+        </NavLink>
+        <NavLink to="/settings" className={({ isActive }) => "nav-link" + (isActive ? " active" : "")}>
+          Settings
+        </NavLink>
+        <NavLink to="/about" className={({ isActive }) => "nav-link" + (isActive ? " active" : "")}>
+          About
+        </NavLink>
       </div>
 
-      {/* EDITOR */}
-      <div className="editor">
-        <div className="editor-inner">
-          {selectedPage ? (
-            <>
-              <div
-                style={{
-                  display: "flex",
-                  justifyContent: "space-between",
-                  alignItems: "center",
-                  gap: "12px",
-                }}
-              >
-                <input
-                  className="editor-title"
-                  value={selectedPage.title}
-                  onChange={(e) => handleTitleChange(e.target.value)}
-                  placeholder="Untitled"
-                />
+      <div style={{ marginLeft: "auto", display: "flex", gap: 10, alignItems: "center" }}>
+        {user ? (
+          <>
+            <span style={{ opacity: 0.8, fontSize: 14 }}>{user.email}</span>
+            <button onClick={handleLogout}>Logout</button>
+          </>
+        ) : (
+          <>
+            <NavLink to="/login" className={({ isActive }) => "nav-link" + (isActive ? " active" : "")}>
+              Login
+            </NavLink>
+            <NavLink to="/signup" className={({ isActive }) => "nav-link" + (isActive ? " active" : "")}>
+              Sign up
+            </NavLink>
+          </>
+        )}
+      </div>
+    </nav>
+  );
+}
 
-                <button
-                  onClick={handleDeletePage}
-                  style={{
-                    padding: "6px 10px",
-                    borderRadius: "6px",
-                    fontSize: "13px",
-                    border: "1px solid #ef4444",
-                    background: "#fee2e2",
-                    color: "#b91c1c",
-                    cursor: "pointer",
-                    whiteSpace: "nowrap",
-                    transition: "0.15s ease",
-                  }}
-                >
-                  Delete
-                </button>
-              </div>
+export default function App() {
+  return (
+    <BrowserRouter>
+      <div className="app-shell">
+        <Navbar />
 
-              <textarea
-                className="editor-content"
-                value={selectedPage.content}
-                onChange={(e) => handleContentChange(e.target.value)}
-                placeholder="Viết gì đó đi..."
-              />
-            </>
-          ) : (
-            <div>Chưa có page nào được chọn.</div>
-          )}
+        <div className="app-layout">
+          <Routes>
+            {/* Protected routes */}
+            <Route
+              path="/"
+              element={
+                <ProtectedRoute>
+                  <NotionApp />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/settings"
+              element={
+                <ProtectedRoute>
+                  <SettingsPage />
+                </ProtectedRoute>
+              }
+            />
+
+            {/* Public routes */}
+            <Route path="/about" element={<AboutPage />} />
+            <Route path="/login" element={<LoginPage />} />
+            <Route path="/signup" element={<SignupPage />} />
+
+            {/* fallback */}
+            <Route path="*" element={<Navigate to="/" replace />} />
+          </Routes>
         </div>
       </div>
-    </>
+    </BrowserRouter>
   );
 }

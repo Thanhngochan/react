@@ -7,11 +7,11 @@ export default function NotionApp() {
     { id: 3, title: "Ý tưởng dự án", content: "List mấy cái startup, app..." },
   ]);
 
-  // lấy ra page đang chọn
+  // page đang chọn
   const [selectedId, setSelectedId] = useState(1);
   const selectedPage = pages.find((p) => p.id === selectedId);
 
-  // cập nhật title/content
+  // cập nhật content
   const handleContentChange = (newContent) => {
     setPages((prev) =>
       prev.map((page) =>
@@ -20,6 +20,7 @@ export default function NotionApp() {
     );
   };
 
+  // cập nhật title
   const handleTitleChange = (newTitle) => {
     setPages((prev) =>
       prev.map((page) =>
@@ -36,7 +37,7 @@ export default function NotionApp() {
     setSelectedId(newId);
   };
 
-  // xoá page (giữ hành vi cũ, nhưng sửa sạch state)
+  // xoá page (giữ hành vi cũ, sửa state sạch)
   const handleDeletePage = () => {
     if (!selectedPage) return;
 
@@ -86,15 +87,7 @@ export default function NotionApp() {
         <div className="editor-inner">
           {selectedPage ? (
             <>
-              <div
-                className="editor-top"
-                style={{
-                  display: "flex",
-                  justifyContent: "space-between",
-                  alignItems: "center",
-                  gap: "12px",
-                }}
-              >
+              <div className="editor-top">
                 <input
                   className="editor-title"
                   value={selectedPage.title}
@@ -102,10 +95,7 @@ export default function NotionApp() {
                   placeholder="Untitled"
                 />
 
-                <button
-                  onClick={handleDeletePage}
-                  className="delete-btn"
-                >
+                <button onClick={handleDeletePage} className="delete-btn">
                   Delete
                 </button>
               </div>
@@ -122,3 +112,7 @@ export default function NotionApp() {
           )}
         </div>
       </div>
+    </div>
+  );
+}
+
