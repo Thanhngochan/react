@@ -6,10 +6,11 @@ export default function NotionApp() {
     { id: 2, title: "Kế hoạch học React", content: "Ghi plan học ở đây..." },
     { id: 3, title: "Ý tưởng dự án", content: "List mấy cái startup, app..." },
   ]);
-
+  // lấy ra page đang chọn
   const [selectedId, setSelectedId] = useState(1);
-  const selectedPage = pages.find((p) => p.id === selectedId);
+  const selectedPage = pages.find((p) => p.id === selectedId); 
 
+// cập nhật tittle/content
   const handleContentChange = (newContent) => {
     setPages((prev) =>
       prev.map((page) =>
