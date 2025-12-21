@@ -6,11 +6,12 @@ export default function NotionApp() {
     { id: 2, title: "Kế hoạch học React", content: "Ghi plan học ở đây..." },
     { id: 3, title: "Ý tưởng dự án", content: "List mấy cái startup, app..." },
   ]);
+
   // lấy ra page đang chọn
   const [selectedId, setSelectedId] = useState(1);
-  const selectedPage = pages.find((p) => p.id === selectedId); 
+  const selectedPage = pages.find((p) => p.id === selectedId);
 
-// cập nhật tittle/content
+  // cập nhật title/content
   const handleContentChange = (newContent) => {
     setPages((prev) =>
       prev.map((page) =>
@@ -26,7 +27,8 @@ export default function NotionApp() {
       )
     );
   };
-// tạo page mới
+
+  // tạo page mới
   const handleAddPage = () => {
     const newId = Date.now();
     const newPage = {
@@ -37,7 +39,8 @@ export default function NotionApp() {
     setPages((prev) => [...prev, newPage]);
     setSelectedId(newId);
   };
-// xoá page
+
+  // xoá page (sạch hơn, tránh setState lồng nhau)
   const handleDeletePage = () => {
     if (!selectedPage) return;
 
@@ -47,19 +50,14 @@ export default function NotionApp() {
       return;
     }
 
-    setPages((prev) => {
-      const newPages = prev.filter((p) => p.id !== selectedId);
+    const deletedIndex = pages.findIndex((p) => p.id === selectedId);
+    const newPages = pages.filter((p) => p.id !== selectedId);
 
-      // Tìm index của trang vừa bị xoá trong mảng cũ
-      const deletedIndex = prev.findIndex((p) => p.id === selectedId);
+    const nextIndex = Math.max(0, deletedIndex - 1);
+    const nextSelectedId = newPages[nextIndex]?.id ?? newPages[0]?.id;
 
-      // Chọn trang kế để vẫn có selected
-      const nextIndex = Math.max(0, deletedIndex - 1);
-
-      setSelectedId(newPages[nextIndex].id);
-
-      return newPages;
-    });
+    setPages(newPages);
+    setSelectedId(nextSelectedId);
   };
 
   return (
@@ -78,9 +76,7 @@ export default function NotionApp() {
           {pages.map((page) => (
             <div
               key={page.id}
-              className={
-                "page-item" + (page.id === selectedId ? " active" : "")
-              }
+              className={"page-item" + (page.id === selectedId ? " active" : "")}
               onClick={() => setSelectedId(page.id)}
             >
               <span className="page-item-bullet" />
@@ -143,3 +139,4 @@ export default function NotionApp() {
     </>
   );
 }
+
