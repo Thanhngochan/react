@@ -26,7 +26,7 @@ export default function NotionApp() {
       )
     );
   };
-
+// tạo page mới
   const handleAddPage = () => {
     const newId = Date.now();
     const newPage = {
@@ -37,7 +37,7 @@ export default function NotionApp() {
     setPages((prev) => [...prev, newPage]);
     setSelectedId(newId);
   };
-
+// xoá page
   const handleDeletePage = () => {
     if (!selectedPage) return;
 
@@ -53,7 +53,7 @@ export default function NotionApp() {
       // Tìm index của trang vừa bị xoá trong mảng cũ
       const deletedIndex = prev.findIndex((p) => p.id === selectedId);
 
-      // Chọn trang phía trước (nếu có), nếu không thì chọn trang đầu tiên
+      // Chọn trang kế để vẫn có selected
       const nextIndex = Math.max(0, deletedIndex - 1);
 
       setSelectedId(newPages[nextIndex].id);
