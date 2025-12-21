@@ -1,11 +1,205 @@
-/* ===== AUTH (LOGIN / SIGNUP) ===== */
+/* =============== RESET / BASE =============== */
+* {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  height: 100%;
+}
+
+body {
+  margin: 0;
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+    Helvetica, Arial, sans-serif;
+  background: #f8fafc;
+  color: #111827;
+}
+
+/* Nếu app của bạn render NotionApp trực tiếp ở root */
+#root {
+  height: 100vh;
+}
+
+/* =============== NOTION LAYOUT =============== */
+.notion-layout {
+  display: flex;
+  height: 100vh;
+  background: #ffffff;
+}
+
+/* ---------- SIDEBAR ---------- */
+.sidebar {
+  width: 280px;
+  background: #ffffff;
+  border-right: 1px solid #e5e7eb;
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+}
+
+.sidebar-header {
+  font-weight: 800;
+  font-size: 16px;
+  margin-bottom: 4px;
+}
+
+.sidebar-sub {
+  font-size: 12px;
+  color: #6b7280;
+  margin-bottom: 14px;
+}
+
+.sidebar-add-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 12px;
+  border-radius: 10px;
+  border: 1px solid #111827;
+  background: #111827;
+  color: #ffffff;
+  font-size: 13px;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.sidebar-add-btn:hover {
+  opacity: 0.92;
+}
+
+.sidebar-add-btn span:first-child {
+  font-size: 16px;
+  line-height: 1;
+}
+
+.page-list {
+  margin-top: 14px;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  overflow-y: auto;
+  padding-right: 4px;
+}
+
+.page-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 10px;
+  border-radius: 10px;
+  cursor: pointer;
+  font-size: 14px;
+  color: #111827;
+  border: 1px solid transparent;
+  user-select: none;
+}
+
+.page-item:hover {
+  background: #f1f5f9;
+}
+
+.page-item.active {
+  background: #eef2ff;
+  border-color: #e0e7ff;
+  font-weight: 700;
+}
+
+.page-item-bullet {
+  width: 8px;
+  height: 8px;
+  border-radius: 999px;
+  background: #9ca3af;
+  flex: 0 0 auto;
+}
+
+.page-item.active .page-item-bullet {
+  background: #111827;
+}
+
+/* ---------- EDITOR ---------- */
+.editor {
+  flex: 1;
+  background: #ffffff;
+  overflow-y: auto;
+  padding: 22px;
+}
+
+.editor-inner {
+  max-width: 860px;
+  margin: 0 auto;
+  border: 1px solid #e5e7eb;
+  border-radius: 14px;
+  padding: 18px;
+  background: #ffffff;
+}
+
+.editor-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 10px;
+}
+
+.editor-title {
+  width: 100%;
+  font-size: 28px;
+  font-weight: 800;
+  border: none;
+  outline: none;
+  padding: 6px 4px;
+}
+
+.editor-title::placeholder {
+  color: #9ca3af;
+}
+
+.editor-content {
+  width: 100%;
+  min-height: 420px;
+  border: none;
+  outline: none;
+  resize: vertical;
+  padding: 8px 4px;
+  font-size: 15px;
+  line-height: 1.65;
+  color: #111827;
+}
+
+.editor-content::placeholder {
+  color: #9ca3af;
+}
+
+/* Delete button class (bạn đang dùng className="delete-btn") */
+.delete-btn {
+  padding: 8px 12px;
+  border-radius: 10px;
+  font-size: 13px;
+  font-weight: 700;
+  border: 1px solid #ef4444;
+  background: #fee2e2;
+  color: #b91c1c;
+  cursor: pointer;
+  white-space: nowrap;
+}
+
+.delete-btn:hover {
+  filter: brightness(0.98);
+}
+
+.delete-btn:active {
+  transform: translateY(1px);
+}
+
+/* =============== AUTH (LOGIN / SIGNUP) =============== */
 .auth-wrap {
   width: 100%;
-  height: calc(100vh); /* full màn hình */
+  min-height: 100vh;
   display: flex;
   align-items: center;
   justify-content: center;
-  background: #f8fafc; /* giống nền ban đầu */
+  background: #f8fafc;
   padding: 24px;
 }
 
@@ -14,14 +208,14 @@
   max-width: 420px;
   background: #ffffff;
   border: 1px solid #e5e7eb;
-  border-radius: 10px;
+  border-radius: 14px;
   padding: 18px;
 }
 
 .auth-title {
   margin: 0 0 6px 0;
   font-size: 20px;
-  font-weight: 700;
+  font-weight: 800;
   color: #111827;
 }
 
@@ -49,7 +243,7 @@
   width: 100%;
   padding: 10px 12px;
   border: 1px solid #e5e7eb;
-  border-radius: 8px;
+  border-radius: 10px;
   outline: none;
   font-size: 14px;
   background: #ffffff;
@@ -65,8 +259,8 @@
   color: #b91c1c;
   background: #fee2e2;
   border: 1px solid #fecaca;
-  padding: 8px 10px;
-  border-radius: 8px;
+  padding: 10px 12px;
+  border-radius: 10px;
 }
 
 .auth-foot {
@@ -77,7 +271,7 @@
 
 .auth-foot a {
   color: #111827;
-  font-weight: 600;
+  font-weight: 700;
   text-decoration: none;
 }
 
@@ -85,26 +279,54 @@
   text-decoration: underline;
 }
 
-/* Button dùng chung (khớp style ban đầu) */
+/* Button dùng chung */
 .btn {
   display: inline-flex;
   align-items: center;
   justify-content: center;
   padding: 10px 12px;
-  border-radius: 8px;
-  border: none;
+  border-radius: 10px;
+  border: 1px solid #111827;
   background: #111827;
   color: #ffffff;
   font-size: 14px;
-  font-weight: 600;
+  font-weight: 800;
   cursor: pointer;
 }
 
 .btn:hover {
-  opacity: 0.9;
+  opacity: 0.92;
 }
 
 .btn:disabled {
   opacity: 0.6;
   cursor: not-allowed;
+}
+
+/* =============== RESPONSIVE =============== */
+@media (max-width: 900px) {
+  .sidebar {
+    width: 240px;
+  }
+  .editor-inner {
+    max-width: 720px;
+  }
+}
+
+@media (max-width: 720px) {
+  .notion-layout {
+    flex-direction: column;
+  }
+  .sidebar {
+    width: 100%;
+    border-right: none;
+    border-bottom: 1px solid #e5e7eb;
+  }
+  .editor {
+    padding: 16px;
+  }
+  .editor-inner {
+    border-radius: 12px;
+    padding: 14px;
+  }
 }
