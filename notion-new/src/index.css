@@ -1,36 +1,23 @@
-/* Navbar layout */
 .navbar {
   display: flex;
   align-items: center;
   padding: 12px 20px;
-  gap: 18px;
 }
 
-/* Brand: đặt margin-right:auto để đẩy các link sang phải (xa ra) */
 .navbar-brand {
   font-weight: 800;
   font-size: 18px;
   text-decoration: none;
   color: inherit;
 
-  margin-right: auto; /* DÒNG QUAN TRỌNG NHẤT */
+  margin-right: 40px; /* ⭐ CHỈ DÒNG NÀY TẠO KHOẢNG CÁCH */
 }
 
-/* Nhóm link Home/Settings/About */
 .navbar-links {
   display: flex;
-  gap: 18px;
-  align-items: center;
+  gap: 20px;
 }
 
-/* Khu auth (ngoài cùng bên phải) */
-.navbar-auth {
-  display: flex;
-  gap: 12px;
-  align-items: center;
-}
-
-/* Link style */
 .nav-link {
   text-decoration: none;
   color: inherit;
@@ -46,16 +33,3 @@
   opacity: 1;
 }
 
-/* User + button */
-.navbar-user {
-  font-size: 13px;
-  opacity: 0.8;
-}
-
-.navbar-btn {
-  padding: 6px 10px;
-  border: 1px solid #e5e7eb;
-  border-radius: 10px;
-  background: #fff;
-  cursor: pointer;
-}
