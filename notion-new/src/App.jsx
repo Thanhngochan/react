@@ -1,36 +1,141 @@
-import { BrowserRouter, Routes, Route, NavLink } from "react-router-dom";
+import { useState } from "react";
 
-import NotionApp from "./NotionApp.jsx";
-import SettingsPage from "./SettingsPage.jsx";
-import AboutPage from "./AboutPage.jsx";
+export default function NotionApp() {
+  const [pages, setPages] = useState([
+    { id: 1, title: "Welcome", content: " Notion ✨" },
+    { id: 2, title: "Kế hoạch học React", content: "Ghi plan học ở đây..." },
+    { id: 3, title: "Ý tưởng dự án", content: "List mấy cái startup, app..." },
+  ]);
 
-export default function App() {
+  // lấy ra page đang chọn
+  const [selectedId, setSelectedId] = useState(1);
+  const selectedPage = pages.find((p) => p.id === selectedId);
+
+  // cập nhật title/content
+  const handleContentChange = (newContent) => {
+    setPages((prev) =>
+      prev.map((page) =>
+        page.id === selectedId ? { ...page, content: newContent } : page
+      )
+    );
+  };
+
+  const handleTitleChange = (newTitle) => {
+    setPages((prev) =>
+      prev.map((page) =>
+        page.id === selectedId ? { ...page, title: newTitle } : page
+      )
+    );
+  };
+
+  // tạo page mới
+  const handleAddPage = () => {
+    const newId = Date.now();
+    const newPage = {
+      id: newId,
+      title: "Untitled",
+      content: "",
+    };
+    setPages((prev) => [...prev, newPage]);
+    setSelectedId(newId);
+  };
+
+  // xoá page (sạch hơn, tránh setState lồng nhau)
+  const handleDeletePage = () => {
+    if (!selectedPage) return;
+
+    // Nếu chỉ còn 1 trang : không cho xoá
+    if (pages.length === 1) {
+      alert("Không thể xoá vì chỉ còn 1 trang duy nhất.");
+      return;
+    }
+
+    const deletedIndex = pages.findIndex((p) => p.id === selectedId);
+    const newPages = pages.filter((p) => p.id !== selectedId);
+
+    const nextIndex = Math.max(0, deletedIndex - 1);
+    const nextSelectedId = newPages[nextIndex]?.id ?? newPages[0]?.id;
+
+    setPages(newPages);
+    setSelectedId(nextSelectedId);
+  };
+
   return (
-    <BrowserRouter>
-      <nav className="navbar">
-        <NavLink to="/" className="navbar-brand">
-          HÂN NOTION
-        </NavLink>
+    <>
+      {/* SIDEBAR */}
+      <div className="sidebar">
+        <div className="sidebar-header">Workspace của Hân</div>
+        <div className="sidebar-sub">Notes · Ideas · Plans</div>
 
-        <div className="navbar-links">
-          <NavLink to="/" end className="nav-link">
-            Home
-          </NavLink>
-          <NavLink to="/settings" className="nav-link">
-            Settings
-          </NavLink>
-          <NavLink to="/about" className="nav-link">
-            About
-          </NavLink>
+        <button className="sidebar-add-btn" onClick={handleAddPage}>
+          <span>＋</span>
+          <span>New page</span>
+        </button>
+
+        <div className="page-list">
+          {pages.map((page) => (
+            <div
+              key={page.id}
+              className={"page-item" + (page.id === selectedId ? " active" : "")}
+              onClick={() => setSelectedId(page.id)}
+            >
+              <span className="page-item-bullet" />
+              <span>{page.title || "Untitled"}</span>
+            </div>
+          ))}
         </div>
-      </nav>
+      </div>
 
-      <Routes>
-        <Route path="/" element={<NotionApp />} />
-        <Route path="/settings" element={<SettingsPage />} />
-        <Route path="/about" element={<AboutPage />} />
-      </Routes>
-    </BrowserRouter>
+      {/* EDITOR */}
+      <div className="editor">
+        <div className="editor-inner">
+          {selectedPage ? (
+            <>
+              <div
+                style={{
+                  display: "flex",
+                  justifyContent: "space-between",
+                  alignItems: "center",
+                  gap: "12px",
+                }}
+              >
+                <input
+                  className="editor-title"
+                  value={selectedPage.title}
+                  onChange={(e) => handleTitleChange(e.target.value)}
+                  placeholder="Untitled"
+                />
+
+                <button
+                  onClick={handleDeletePage}
+                  style={{
+                    padding: "6px 10px",
+                    borderRadius: "6px",
+                    fontSize: "13px",
+                    border: "1px solid #ef4444",
+                    background: "#fee2e2",
+                    color: "#b91c1c",
+                    cursor: "pointer",
+                    whiteSpace: "nowrap",
+                    transition: "0.15s ease",
+                  }}
+                >
+                  Delete
+                </button>
+              </div>
+
+              <textarea
+                className="editor-content"
+                value={selectedPage.content}
+                onChange={(e) => handleContentChange(e.target.value)}
+                placeholder="Viết gì đó đi..."
+              />
+            </>
+          ) : (
+            <div>Chưa có page nào được chọn.</div>
+          )}
+        </div>
+      </div>
+    </>
   );
 }
-

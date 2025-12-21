@@ -31,20 +31,15 @@ export default function NotionApp() {
   // tạo page mới
   const handleAddPage = () => {
     const newId = Date.now();
-    const newPage = {
-      id: newId,
-      title: "Untitled",
-      content: "",
-    };
+    const newPage = { id: newId, title: "Untitled", content: "" };
     setPages((prev) => [...prev, newPage]);
     setSelectedId(newId);
   };
 
-  // xoá page (sạch hơn, tránh setState lồng nhau)
+  // xoá page (giữ hành vi cũ, nhưng sửa sạch state)
   const handleDeletePage = () => {
     if (!selectedPage) return;
 
-    // Nếu chỉ còn 1 trang : không cho xoá
     if (pages.length === 1) {
       alert("Không thể xoá vì chỉ còn 1 trang duy nhất.");
       return;
@@ -61,7 +56,7 @@ export default function NotionApp() {
   };
 
   return (
-    <>
+    <div className="notion-layout">
       {/* SIDEBAR */}
       <div className="sidebar">
         <div className="sidebar-header">Workspace của Hân</div>
@@ -92,6 +87,7 @@ export default function NotionApp() {
           {selectedPage ? (
             <>
               <div
+                className="editor-top"
                 style={{
                   display: "flex",
                   justifyContent: "space-between",
@@ -108,17 +104,7 @@ export default function NotionApp() {
 
                 <button
                   onClick={handleDeletePage}
-                  style={{
-                    padding: "6px 10px",
-                    borderRadius: "6px",
-                    fontSize: "13px",
-                    border: "1px solid #ef4444",
-                    background: "#fee2e2",
-                    color: "#b91c1c",
-                    cursor: "pointer",
-                    whiteSpace: "nowrap",
-                    transition: "0.15s ease",
-                  }}
+                  className="delete-btn"
                 >
                   Delete
                 </button>
@@ -136,7 +122,3 @@ export default function NotionApp() {
           )}
         </div>
       </div>
-    </>
-  );
-}
-
